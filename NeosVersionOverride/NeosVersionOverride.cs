@@ -16,7 +16,7 @@ namespace NeosVersionOverride
     [Category("Epsilion")]
     public class NeosVersionOverride : Component, ICustomInspector
     {
-        private HarmonyLib.Harmony Harmony = new HarmonyLib.Harmony("net.aerizeon.NeosLuaManager");
+        private HarmonyLib.Harmony Harmony = new HarmonyLib.Harmony("net.aerizeon.NeosVersionOverride");
 
         public void BuildInspectorUI(UIBuilder ui)
         {
