@@ -63,7 +63,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)$(TargetName).dll" "C:\Program Files (x86)\Steam\steamapps\common\NeosVR\Libraries\$(TargetName).dll
-copy /Y "$(TargetDir)0Harmony.dll" "C:\Program Files (x86)\Steam\steamapps\common\NeosVR\0Harmony.dll</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetDir)$(TargetName).dll" "C:\Program Files (x86)\Steam\steamapps\common\NeosVR\Libraries\$(TargetName).dll"
+copy /Y "$(TargetDir)0Harmony.dll" "C:\Program Files (x86)\Steam\steamapps\common\NeosVR\0Harmony.dll"
+ if not exist "$(TargetDir)\Package\Libraries" mkdir "$(TargetDir)\Package\Libraries"
+copy /Y "$(TargetDir)$(TargetName).dll" "$(TargetDir)Package\Libraries\$(TargetName).dll"
+copy /Y "$(TargetDir)0Harmony.dll" "$(TargetDir)Package\0Harmony.dll"</PostBuildEvent>
   </PropertyGroup>
 </Project>
