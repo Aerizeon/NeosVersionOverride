@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NeosVersionHelpers.cs" />
-    <Compile Include="NeosVersionOverride.cs" />
+    <Compile Include="VersionOverride.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

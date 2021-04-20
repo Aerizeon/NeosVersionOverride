@@ -1,22 +1,12 @@
 ﻿using BaseX;
-using CloudX.Shared;
 using FrooxEngine;
 using FrooxEngine.UIX;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeosVersionOverride
 {
     [Category("Epsilion")]
-    public class NeosVersionOverride : Component, ICustomInspector
+    public class VersionOverride : Component, ICustomInspector
     {
-        private HarmonyLib.Harmony Harmony = new HarmonyLib.Harmony("net.aerizeon.NeosVersionOverride");
 
         public void BuildInspectorUI(UIBuilder ui)
         {
@@ -30,7 +20,6 @@ namespace NeosVersionOverride
         protected override void OnAwake()
         {
             NeosVersionHelpers.OverrideHash(Engine);
-            Harmony.PatchAll();
         }
     }
 }

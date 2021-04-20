@@ -10,16 +10,11 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeosVersionOverride
 {
     public static class NeosVersionHelpers
     {
-        public static string CurrentVersion { get; set; }
-        public static string CurrentHash { get; set; }
-
         /// <summary>
         /// Searches the MSIL in FrooxEngine.Initialize for the current network version
         /// </summary>
@@ -32,7 +27,7 @@ namespace NeosVersionOverride
                  * Get AsyncStateMachine attribute for FrooxEngine.Initialize, since it is an Async method
                  * This allows us to get the state machine's class from AsyncStateMachineAttribute.StateMachineType
                  */
-                var asyncAttribute = typeof(FrooxEngine.Engine).GetMethod("Initialize", BindingFlags.Public | BindingFlags.Instance)?.GetCustomAttribute<AsyncStateMachineAttribute>();
+                var asyncAttribute = typeof(Engine).GetMethod("Initialize", BindingFlags.Public | BindingFlags.Instance)?.GetCustomAttribute<AsyncStateMachineAttribute>();
                 if (asyncAttribute != null && asyncAttribute.StateMachineType != null)
                 {
                     //Get the .MoveNext method from our custom IAsyncStateMachine
@@ -40,7 +35,7 @@ namespace NeosVersionOverride
                     if (asyncTargetMethodInfo != null)
                     {
                         //Read the MSIL from the MoveNext method
-                        var ops = HarmonyLib.PatchProcessor.GetOriginalInstructions(asyncTargetMethodInfo);
+                        var ops = PatchProcessor.GetOriginalInstructions(asyncTargetMethodInfo);
                         /* 
                          * Store the method's local variable corresponding to a usage of ConcatenatedStream
                          * which occurs near the target value. We can begin searching from here.
@@ -75,10 +70,9 @@ namespace NeosVersionOverride
             }
             catch (Exception ex)
             {
-                UniLog.Log("Unable to determine Neos network version: " + ex);
-                throw;
+                UniLog.Log("[Version Override]\tUnable to determine Neos network version: " + ex);
             }
-            throw new Exception("Unable to determine neos version");
+            throw new Exception("Unable to determine Neos network version");
         }
         /// <summary>
         /// Calculates a new CompatabilityHash based on the specified networkVersion and
@@ -107,13 +101,13 @@ namespace NeosVersionOverride
                     }
                     catch
                     {
-                        UniLog.Log("Failed to load assembly for hashing: " + PluginsBase + assemblyPath);
+                        UniLog.Log("[Version Override]\tFailed to load assembly for hashing: " + PluginsBase + assemblyPath);
                     }
                 }
             }
 
             AssemblyName currentAssemblyName = Assembly.GetExecutingAssembly().GetName();
-            SetHash(Convert.ToBase64String(csp.ComputeHash(hashStream)), versionString ?? (currentAssemblyName.Name + "-" + currentAssemblyName.Version), engine);
+            SetHash(Convert.ToBase64String(csp.ComputeHash(hashStream)), versionString ?? (currentAssemblyName.Version + " + NVO"), engine);
         }
 
         /// <summary>
@@ -135,16 +129,14 @@ namespace NeosVersionOverride
                 {
                     status.CompatibilityHash = compatHash;
                     status.NeosVersion = appVersion;
-                    CurrentVersion = appVersion;
-                    CurrentHash = compatHash;
                 }
                 else
-                    UniLog.Error("Failed to override UserStatus CompatibilityHash", false);
+                    UniLog.Error("[Version Override]\tFailed to override UserStatus CompatibilityHash", false);
 
             }
             catch (Exception ex)
             {
-                UniLog.Error("Failed to override Engine CompatibilityHash: " + ex.ToString(), false);
+                UniLog.Error("[Version Override]\tFailed to override Engine CompatibilityHash: " + ex.ToString(), false);
             }
         }
     }
