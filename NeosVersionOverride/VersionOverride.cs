@@ -4,7 +4,7 @@ using FrooxEngine.UIX;
 
 namespace NeosVersionOverride
 {
-    [Category("Epsilion")]
+    [Category("Add-Ons/")]
     public class VersionOverride : Component, ICustomInspector
     {
 

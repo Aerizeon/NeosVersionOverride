@@ -106,8 +106,8 @@ namespace NeosVersionOverride
                 }
             }
 
-            AssemblyName currentAssemblyName = Assembly.GetExecutingAssembly().GetName();
-            SetHash(Convert.ToBase64String(csp.ComputeHash(hashStream)), versionString ?? (currentAssemblyName.Version + " + NVO"), engine);
+            string currentVersionString = engine.VersionString.Substring(0, engine.VersionString.IndexOf('+'));
+            SetHash(Convert.ToBase64String(csp.ComputeHash(hashStream)), versionString ?? (currentVersionString + "+NVO.dll"), engine);
         }
 
         /// <summary>
