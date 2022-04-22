@@ -1,12 +1,8 @@
 # NeosVersionOverride
 A plugin to circumvent the built-in hash check for NeosVR
 
+Now Obsolete, and made available for reference only.
 
-**This component is to be used for testing only.**
-
-**Please do not include it in any public distributions.**
-
-**Message Epsilion for more details.**
 
 # Installation
 * Download the latest NeosVersionOverride.zip from [Releases](https://github.com/Aerizeon/NeosVersionOverride/releases)
